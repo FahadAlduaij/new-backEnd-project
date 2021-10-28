@@ -1,0 +1,16 @@
+{
+  "name": "new-backEnd-project",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "git@github.com:FahadAlduaij/new-backEnd-project.git",
+  "author": "fahadalduaij <fahad_osama@hotmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.12",
+    "nodemon": "^2.0.14"
+  }
+}
