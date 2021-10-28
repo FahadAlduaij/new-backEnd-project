@@ -38,8 +38,26 @@ exports.fetchFullyBooked = async (req, res, next) => {
 		const fullyBooked = await Event.find({
 			$expr: { $eq: ["$numOfSeats", "$bookedSeats"] },
 		});
+		if (fullyBooked) {
+			return res.status(200).json(fullyBooked);
+		} else {
+			next({
+				status: 404,
+				message: "There is No Fully Booked Events",
+			});
+		}
+	} catch (error) {
+		next(error);
+	}
+};
 
-		return res.status(200).json(fullyBooked);
+exports.fetchByName = async (req, res, next) => {
+	try {
+		const query = req.params.query;
+		const filtered = await Event.find({
+			name: query,
+		}).exec();
+		return res.status(200).json(filtered);
 	} catch (error) {
 		next(error);
 	}

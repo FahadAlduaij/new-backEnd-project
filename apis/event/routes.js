@@ -7,12 +7,14 @@ const {
 	createEvent,
 	deleteEvent,
 	updateEvent,
+	fetchByName,
 } = require("./controllers");
 
 // Routes
+router.get("/name/:query", fetchByName);
 router.get("/fullyBooked", fetchFullyBooked);
-router.get("/", fetchEvent);
 router.get("/:eventID", fetchEventID);
+router.get("/", fetchEvent);
 router.post("/", createEvent);
 router.delete("/:eventID", deleteEvent);
 router.put("/:eventID", updateEvent);

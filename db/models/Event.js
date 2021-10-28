@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 
 const EventSchema = mongoose.Schema(
 	{
-		organizer: String,
+		organizer: {
+			type: String,
+			max: 20,
+			unique: true,
+		},
 		name: String,
 		email: String,
 		image: String,
