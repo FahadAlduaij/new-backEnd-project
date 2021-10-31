@@ -1,6 +1,18 @@
 const mongoose = require("mongoose");
+const { findById } = require("../../db/models/Event");
 const Event = require("../../db/models/Event");
 
+// Param Function
+exports.findEvent = async (eventId, next) => {
+	try {
+		const event = await Event.findById(eventId);
+		return event;
+	} catch (error) {
+		next(error);
+	}
+};
+
+// Fetch All Data
 exports.fetchEvent = async (req, res, next) => {
 	try {
 		const events = await Event.find();
@@ -17,22 +29,16 @@ exports.fetchEvent = async (req, res, next) => {
 	}
 };
 
+// Fetch Spesific Data
 exports.fetchEventID = async (req, res, next) => {
 	try {
-		const event = await Event.findById(req.params.eventID);
-		if (event) {
-			return res.status(200).json(event);
-		} else {
-			next({
-				status: 404,
-				message: "Event Not Found",
-			});
-		}
+		return res.status(200).json(req.event);
 	} catch (error) {
 		next(error);
 	}
 };
 
+// Fetch Only Fully Booked Data
 exports.fetchFullyBooked = async (req, res, next) => {
 	try {
 		const fullyBooked = await Event.find({
@@ -51,6 +57,7 @@ exports.fetchFullyBooked = async (req, res, next) => {
 	}
 };
 
+// Fetch By Name Only
 exports.fetchByName = async (req, res, next) => {
 	try {
 		const query = req.params.query;
@@ -63,6 +70,7 @@ exports.fetchByName = async (req, res, next) => {
 	}
 };
 
+// Creat New Event
 exports.createEvent = async (req, res, next) => {
 	try {
 		const newEvent = await Event.create(req.body);
@@ -73,23 +81,17 @@ exports.createEvent = async (req, res, next) => {
 	}
 };
 
+// Delete Event
 exports.deleteEvent = async (req, res, next) => {
 	try {
-		const findEvent = await Event.findById(req.params.eventID);
-		if (findEvent) {
-			await Event.remove(findEvent);
-			return res.status(204).end();
-		} else {
-			next({
-				Status: 404,
-				message: "Event Not Found",
-			});
-		}
+		await Event.remove(req.event);
+		return res.status(204).end();
 	} catch (error) {
 		next(error);
 	}
 };
 
+// Update Event
 exports.updateEvent = async (req, res, next) => {
 	const eventID = req.params.eventID;
 	try {
